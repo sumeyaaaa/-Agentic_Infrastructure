@@ -1,0 +1,24 @@
+# Project Chimera – Agent Rules
+
+## Project Context
+- This is **Project Chimera**, an autonomous influencer system.
+- The goal is to design the **infrastructure, specs, tests, and governance** so that AI agents can later implement features safely.
+
+## Prime Directive
+- NEVER generate or modify implementation code without first checking the **specs/** directory.
+- If specs are missing or unclear, ask the human to clarify and update the specs before coding.
+
+## Working Style
+- Explain your plan briefly before making code changes.
+- Prefer **specs, tests, and architecture** first; implementation later.
+- Keep changes small, well-documented, and traceable via Git commits.
+
+## Safety & Governance
+- Flag any operation that touches external APIs, publishing, or user-generated content.
+- Ask for explicit confirmation before adding risky dependencies or integrations.
+
+## File Conventions
+- Use `research/` for notes and architecture strategy.
+- Use `specs/` for executable specs (functional, technical, OpenClaw integration).
+- Use `skills/` to define agent skill interfaces (no heavy logic yet).
+- Use `tests/` for TDD-style tests that may **initially fail**.
