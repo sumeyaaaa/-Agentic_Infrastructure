@@ -25,13 +25,13 @@ class MoltBookTrendFetcherParameters(TypedDict, total=False):
     persona_tags: List[str]  # Default: []
     max_topics: int  # Minimum: 1, Maximum: 50, Default: 10
 
-
+# which agent is requesting
 class MoltBookTrendFetcherContext(TypedDict, total=False):
     """Context for trend fetching"""
     agent_id: UUID  # Required: true
     campaign_id: Optional[UUID]  # Required: false
-    budget_remaining: Decimal  # Required: true, Must be >= 0
-    persona_constraints: Optional[List[str]]  # Required: false
+    budget_remaining: Decimal  # Required: true, Must be >= 0,avoid overspending
+    persona_constraints: Optional[List[str]]  # Required: false,Used to filter trends by relevance to the agent's persona
 
 
 class MoltBookTrendFetcherInput(TypedDict):

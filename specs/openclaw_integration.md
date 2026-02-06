@@ -1,8 +1,3 @@
-# OpenClaw Integration Specifications
-
-I'll help you complete and properly format the full `specs/openclaw_integration.md` file. Here's the complete, well-structured version:
-
-```markdown
 # OpenClaw/MoltBook Integration Specification
 
 ## Security First Principle
