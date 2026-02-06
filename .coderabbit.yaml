@@ -1,0 +1,133 @@
+# CodeRabbit AI Review Policy for Project Chimera
+# Reference: project.md Task 3.3 - AI Governance
+
+# Review Configuration
+review:
+  # Review all pull requests
+  request_review:
+    enabled: true
+    filter: "all"
+  
+  # Review comments
+  review_comment:
+    enabled: true
+    highlights:
+      - "Spec Alignment"
+      - "Security Vulnerabilities"
+      - "MCP-Native Principle Violations"
+      - "Missing Input Sanitization"
+      - "Hardcoded Credentials"
+
+# Rules for Spec Alignment
+rules:
+  - name: "Spec Alignment Check"
+    description: "Code must align with specifications in specs/ directory"
+    check:
+      - "Changes to skills/ must reference specs/technical.md or specs/functional.md"
+      - "API contracts must match specs/technical.md"
+      - "Database schemas must match specs/technical.md"
+      - "MCP server usage must match specs/openclaw_integration.md"
+    paths:
+      - "skills/**"
+      - "workers/**"
+      - "**/*.py"
+    severity: "error"
+  
+  - name: "MCP-Native Principle"
+    description: "No direct external API calls - must use MCP servers"
+    check:
+      - "No direct calls to MoltBook API (must use mcp-server-moltbook)"
+      - "No direct calls to social media APIs (must use mcp-server-social)"
+      - "No direct calls to Coinbase API (must use mcp-server-coinbase)"
+      - "No direct calls to Weaviate (must use mcp-server-weaviate)"
+    paths:
+      - "skills/**"
+      - "workers/**"
+    severity: "error"
+  
+  - name: "Security Vulnerabilities"
+    description: "Check for security issues identified in OpenClaw research"
+    check:
+      - "No hardcoded credentials or API keys"
+      - "No plain-text credential storage"
+      - "Input sanitization present for MoltBook interactions"
+      - "Rate limiting implemented for external APIs"
+      - "Prompt injection patterns detected and rejected"
+    paths:
+      - "**/*.py"
+      - "**/*.yaml"
+      - "**/*.yml"
+      - "**/*.json"
+    severity: "error"
+  
+  - name: "Input Sanitization"
+    description: "All external inputs must be sanitized"
+    check:
+      - "MoltBook content sanitized before processing"
+      - "User-generated content sanitized"
+      - "Sanitization follows specs/technical.md rules"
+    paths:
+      - "skills/skill_moltbook_trend_fetcher/**"
+      - "skills/skill_content_generator/**"
+    severity: "warning"
+  
+  - name: "Skill Interface Compliance"
+    description: "Skill implementations must match interface contracts"
+    check:
+      - "Input matches TypedDict definitions in interface.py"
+      - "Output matches TypedDict definitions in interface.py"
+      - "Error codes match Enum definitions"
+      - "Async methods properly implemented"
+    paths:
+      - "skills/**/interface.py"
+    severity: "error"
+  
+  - name: "Budget and Cost Controls"
+    description: "Financial operations must enforce budget constraints"
+    check:
+      - "Budget checks before API calls"
+      - "Cost tracking in metadata"
+      - "CFO Judge approval for transactions > threshold"
+    paths:
+      - "skills/skill_wallet_manager/**"
+      - "skills/skill_content_generator/**"
+    severity: "warning"
+  
+  - name: "Judge Agent Validation"
+    description: "All outputs must pass through Judge agent"
+    check:
+      - "requires_validation flag set appropriately"
+      - "Confidence scoring implemented"
+      - "Judge escalation paths defined"
+    paths:
+      - "skills/**"
+    severity: "warning"
+
+# File Patterns to Review
+paths:
+  include:
+    - "skills/**"
+    - "workers/**"
+    - "tests/**"
+    - "specs/**"
+  exclude:
+    - "**/__pycache__/**"
+    - "**/*.pyc"
+    - "**/.pytest_cache/**"
+    - "**/node_modules/**"
+
+# Language Settings
+language:
+  python:
+    enabled: true
+    version: "3.10+"
+  
+  markdown:
+    enabled: true
+    check_specs: true
+
+# Commit Message Requirements
+commit:
+  require_spec_reference: true
+  spec_reference_pattern: "refs? (specs?/.*|#\\d+)"
+
