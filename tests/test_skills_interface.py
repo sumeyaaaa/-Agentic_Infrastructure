@@ -309,3 +309,4 @@ class TestSkillValidationContracts:
         with pytest.raises(NotImplementedError):
             WalletManagerInterface.validate_input({})
 
+

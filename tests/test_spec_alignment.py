@@ -223,3 +223,4 @@ class TestMakefile:
         assert "test:" in content, \
             "Makefile should have test target"
 
+

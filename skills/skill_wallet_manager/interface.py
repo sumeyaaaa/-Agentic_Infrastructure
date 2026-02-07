@@ -222,3 +222,4 @@ class WalletManagerInterface:
         # Implementation will sanitize according to specs
         raise NotImplementedError("Sanitization pending")
 
+
